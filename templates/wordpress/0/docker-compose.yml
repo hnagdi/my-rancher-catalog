@@ -1,24 +1,22 @@
-version: '2'
-services:
-  wordpress:
-    image: wordpress
-    environment:
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_USER: wordpress
-    stdin_open: true
-    tty: true
-    links:
-      mysql:mysql
-    ports:
-      8080:80/tcp
-  mysql:
-    image: mysql
-    environment:
+--- 
+services: 
+  mysql: 
+    environment: 
       MYSQL_DATABASE: wordpress
       MYSQL_PASSWORD: wordpress
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: wordpress
+    image: mysql
+    ports: "3306:3306/tcp"
     stdin_open: true
     tty: true
-    ports:
-      3306:3306/tcp
+  wordpress: 
+    environment: 
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+    image: wordpress
+    links: "mysql:mysql"
+    ports: "8080:80/tcp"
+    stdin_open: true
+    tty: true
+version: "2"
